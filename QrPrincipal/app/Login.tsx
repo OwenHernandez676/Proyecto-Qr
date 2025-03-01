@@ -24,10 +24,10 @@ const LoginScreen = () => {
     }
 
     try {
-      router.replace('../(tabs)/index');
-    } catch (error: any) {
-      Alert.alert('Error', error.message || 'Ocurrió un error desconocido');
-    }
+    router.replace('/(tabs)'); // 🚀 Asegúrate de que esta ruta sea correcta
+  } catch (error: any) {
+    Alert.alert('Error', error.message || 'Ocurrió un error desconocido');
+  }
   };
 
   return (
