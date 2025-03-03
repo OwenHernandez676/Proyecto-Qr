@@ -31,12 +31,12 @@ const HomeScreen = () => {
 
           <View style={styles.optionsContainer}>
             {/* Opción: Escanear Código QR */}
-            <TouchableOpacity style={styles.card} onPress={() => navigateTo('/scan')}> 
+            <TouchableOpacity style={styles.card} onPress={() => navigateTo('/(tabs)/ScanQRScreen')}> 
               <View style={styles.cardContent}>
                 <Ionicons name="scan-outline" size={40} color="black" style={styles.icon} />
                 <Text style={styles.cardText}>Escanear Código QR</Text>
               </View>
-              <TouchableOpacity style={styles.button} onPress={() => navigateTo('/scan')}>
+              <TouchableOpacity style={styles.button} onPress={() => navigateTo('/(tabs)/ScanQRScreen')}>
                 <Text style={styles.buttonText}>PARTICIPAR</Text>
               </TouchableOpacity>
             </TouchableOpacity>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { Camera, CameraType } from 'expo-camera'; // ✅ CORRECTO
+import { Camera, CameraType } from 'expo-camera'; //  IMPORTACIÓN CORRECTA
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -11,7 +11,7 @@ const ScanQRScreen = () => {
 
   useEffect(() => {
     const getCameraPermission = async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync(); // ✅ Usamos expo-camera
+      const { status } = await Camera.requestCameraPermissionsAsync();//Usamo expo-camera
       setHasPermission(status === 'granted');
     };
     getCameraPermission();
@@ -36,8 +36,9 @@ const ScanQRScreen = () => {
       <Text style={styles.title}>Escanear Código QR</Text>
       <View style={styles.scannerContainer}>
         <Camera
-          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned} // ✅ Usamos Camera en lugar de BarCodeScanner
+          type={CameraType.back} // Usa la cámara trasera
           style={StyleSheet.absoluteFillObject}
+          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         />
       </View>
       <TouchableOpacity style={styles.backButton} onPress={() => router.push('/(tabs)/index')}>

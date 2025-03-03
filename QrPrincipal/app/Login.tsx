@@ -24,7 +24,7 @@ const LoginScreen = () => {
     }
 
     try {
-    router.replace('/(tabs)'); // 🚀 Asegúrate de que esta ruta sea correcta
+    router.replace('/(tabs)'); // Asegúrarse de que esta ruta sea correcta
   } catch (error: any) {
     Alert.alert('Error', error.message || 'Ocurrió un error desconocido');
   }
