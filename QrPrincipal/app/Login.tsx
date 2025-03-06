@@ -1,11 +1,13 @@
+// app/login.tsx (Pantalla de login con autenticación social, @gmail.com obligatorio y botón de ojo funcional)
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as Google from 'expo-auth-session/providers/google';
 import * as Facebook from 'expo-auth-session/providers/facebook';
+import * as AppleAuthentication from 'expo-apple-authentication';
 
-const LoginScreen: React.FC = () => {
+const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [secureTextEntry, setSecureTextEntry] = useState(true);
@@ -22,7 +24,7 @@ const LoginScreen: React.FC = () => {
     }
 
     try {
-      router.replace('/(tabs)'); // Asegurarse de que esta ruta sea correcta
+      router.replace('../(tabs)/index');
     } catch (error: any) {
       Alert.alert('Error', error.message || 'Ocurrió un error desconocido');
     }
@@ -78,6 +80,13 @@ const LoginScreen: React.FC = () => {
         <TouchableOpacity style={styles.socialButton}>
           <Ionicons name="logo-facebook" size={24} color="#4267B2" />
         </TouchableOpacity>
+        {Platform.OS === 'ios' && (
+          <AppleAuthentication.AppleAuthenticationButton
+            buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
+            buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
+            style={styles.appleButton}
+          />
+        )}
       </View>
     </View>
   );
@@ -160,6 +169,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     borderWidth: 1,
     borderColor: '#ddd',
+  },
+  appleButton: {
+    width: 50,
+    height: 50,
+    marginHorizontal: 10,
   },
 });
 

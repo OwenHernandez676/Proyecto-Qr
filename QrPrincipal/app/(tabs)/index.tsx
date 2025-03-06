@@ -1,160 +1,74 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ActivityIndicator, StyleSheet, Dimensions } from 'react-native';
-import { useRouter } from 'expo-router';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { useTheme } from '../../context/ThemeContext';
-import { useLanguage } from '../../context/LanguageContext';
+import { Image, StyleSheet, Platform } from 'react-native';
 
-const { width, height } = Dimensions.get('window');
+import { HelloWave } from '@/components/HelloWave';
+import ParallaxScrollView from '@/components/ParallaxScrollView';
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
 
-const HomeScreen: React.FC = () => {
-  const router = useRouter();
-  const { theme } = useTheme();
-  const { language } = useLanguage();
-  const [isRefreshing, setIsRefreshing] = useState(false);
-
-  const navigateTo = (path: string) => {
-    router.push(path);
-  };
-
-  const handleRefresh = () => {
-    setIsRefreshing(true);
-    setTimeout(() => {
-      setIsRefreshing(false);
-    }, 250);
-  };
-
+export default function HomeScreen() {
   return (
-    <View style={[styles.container, theme === 'dark' ? styles.darkContainer : styles.lightContainer]}>
-      {isRefreshing ? (
-        <ActivityIndicator size="large" color="black" style={styles.loader} />
-      ) : (
-        <>
-          <Text style={[styles.title, theme === 'dark' ? styles.darkText : styles.lightText]}>
-            Owen’s QR
-          </Text>
-          <Text style={[styles.subtitle, theme === 'dark' ? styles.darkText : styles.lightText]}>
-            {language === 'es' ? '¿Qué planeas hacer hoy?' : 'What do you plan to do today?'}
-          </Text>
-
-          <View style={styles.optionsContainer}>
-            {/* Opción: Escanear Código QR */}
-            <TouchableOpacity style={styles.card} onPress={() => router.push('/ScanQRScreen')}>
-              <View style={styles.cardContent}>
-                <Ionicons name="scan-outline" size={40} color="black" style={styles.icon} />
-                <Text style={styles.cardText}>
-                  {language === 'es' ? 'Escanear Código QR' : 'Scan QR Code'}
-                </Text>
-              </View>
-              <TouchableOpacity style={styles.button} onPress={() => router.push('/ScanQRScreen')}>
-                <Text style={styles.buttonText}>PARTICIPAR</Text>
-              </TouchableOpacity>
-            </TouchableOpacity>
-
-            {/* Opción: Lista de Productos */}
-            <TouchableOpacity style={styles.card} onPress={() => router.push('../ProductListScreen')}>
-              <View style={styles.cardContent}>
-                <Ionicons name="list-outline" size={40} color="black" style={styles.icon} />
-                <Text style={styles.cardText}>
-                  {language === 'es' ? 'Lista de Productos' : 'Product List'}
-                </Text>
-              </View>
-              <TouchableOpacity style={styles.button} onPress={() => router.push('../ProductListScreen')}>
-                <Text style={styles.buttonText}>PARTICIPAR</Text>
-              </TouchableOpacity>
-            </TouchableOpacity>
-
-            {/* Opción: Generar Producto/Qr */}
-            <TouchableOpacity style={styles.card} onPress={() => router.push('../GenerateQRScreen')}>
-              <View style={styles.cardContent}>
-                <MaterialCommunityIcons name="qrcode-edit" size={40} color="black" style={styles.icon} />
-                <Text style={styles.cardText}>
-                  {language === 'es' ? 'Generar un nuevo Producto/Qr' : 'Generate a new Product/QR'}
-                </Text>
-              </View>
-              <TouchableOpacity style={styles.button} onPress={() => router.push('../GenerateQRScreen')}>
-                <Text style={styles.buttonText}>PARTICIPAR</Text>
-              </TouchableOpacity>
-            </TouchableOpacity>
-          </View>
-        </>
-      )}
-    </View>
+    <ParallaxScrollView
+      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
+      headerImage={
+        <Image
+          source={require('@/assets/images/partial-react-logo.png')}
+          style={styles.reactLogo}
+        />
+      }>
+      <ThemedView style={styles.titleContainer}>
+        <ThemedText type="title">Welcome OWEN!</ThemedText>
+        <HelloWave />
+      </ThemedView>
+      <ThemedView style={styles.stepContainer}>
+        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
+        <ThemedText>
+          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
+          Press{' '}
+          <ThemedText type="defaultSemiBold">
+            {Platform.select({
+              ios: 'cmd + d',
+              android: 'cmd + m',
+              web: 'F12'
+            })}
+          </ThemedText>{' '}
+          to open developer tools.
+        </ThemedText>
+      </ThemedView>
+      <ThemedView style={styles.stepContainer}>
+        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
+        <ThemedText>
+          Tap the Explore tab to learn more about what's included in this starter app.
+        </ThemedText>
+      </ThemedView>
+      <ThemedView style={styles.stepContainer}>
+        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
+        <ThemedText>
+          When you're ready, run{' '}
+          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
+          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
+          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
+          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
+        </ThemedText>
+      </ThemedView>
+    </ParallaxScrollView>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: height * 0.05,
-    paddingHorizontal: width * 0.05,
-    alignItems: 'center',
-  },
-  lightContainer: {
-    backgroundColor: '#fff',
-  },
-  darkContainer: {
-    backgroundColor: '#121212',
-  },
-  loader: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 10,
-  },
-  subtitle: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  optionsContainer: {
-    width: '100%',
-  },
-  card: {
-    backgroundColor: '#FAF3F0',
-    borderRadius: 15,
-    padding: 20,
-    marginBottom: 20,
-    width: '100%',
-    alignSelf: 'center',
-    elevation: 5,
-  },
-  cardContent: {
+  titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 15,
+    gap: 8,
   },
-  icon: {
-    marginRight: 15,
+  stepContainer: {
+    gap: 8,
+    marginBottom: 8,
   },
-  cardText: {
-    fontSize: 18,
-    fontWeight: '600',
-    flexShrink: 1, // Evita que el texto se desborde
-  },
-  button: {
-    backgroundColor: 'black',
-    padding: 12,
-    borderRadius: 20,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  lightText: {
-    color: '#000',
-  },
-  darkText: {
-    color: '#fff',
+  reactLogo: {
+    height: 178,
+    width: 290,
+    bottom: 0,
+    left: 0,
+    position: 'absolute',
   },
 });
-
-export default HomeScreen;
